@@ -1,10 +1,10 @@
-package com.youtube.jwt.service;
+package in.nirajkumar.ecommerce.service;
 
-import com.youtube.jwt.dao.UserDao;
-import com.youtube.jwt.entity.JwtRequest;
-import com.youtube.jwt.entity.JwtResponse;
-import com.youtube.jwt.entity.User;
-import com.youtube.jwt.util.JwtUtil;
+import in.nirajkumar.ecommerce.dao.UserDao;
+import in.nirajkumar.ecommerce.entity.JwtRequest;
+import in.nirajkumar.ecommerce.entity.JwtResponse;
+import in.nirajkumar.ecommerce.entity.User;
+import in.nirajkumar.ecommerce.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
