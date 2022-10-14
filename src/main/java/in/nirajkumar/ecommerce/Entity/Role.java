@@ -1,4 +1,4 @@
-package in.nirajkumar.ecommerce.Entity;
+package com.youtube.jwt.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
