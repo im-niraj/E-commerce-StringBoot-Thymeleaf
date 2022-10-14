@@ -1,7 +1,8 @@
-package com.youtube.jwt.service;
+package in.nirajkumar.ecommerce.service;
 
-import com.youtube.jwt.dao.RoleDao;
-import com.youtube.jwt.entity.Role;
+
+import in.nirajkumar.ecommerce.dao.RoleDao;
+import in.nirajkumar.ecommerce.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
