@@ -1,10 +1,10 @@
-package in.nirajkumar.ecommerce.Service;
+package com.youtube.jwt.service;
 
-import in.nirajkumar.ecommerce.Dao.UserDao;
-import in.nirajkumar.ecommerce.Entity.JwtRequest;
-import in.nirajkumar.ecommerce.Entity.JwtResponse;
-import in.nirajkumar.ecommerce.Entity.User;
-import in.nirajkumar.ecommerce.Util.JwtUtil;
+import com.youtube.jwt.dao.UserDao;
+import com.youtube.jwt.entity.JwtRequest;
+import com.youtube.jwt.entity.JwtResponse;
+import com.youtube.jwt.entity.User;
+import com.youtube.jwt.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,58 +23,56 @@ import java.util.Set;
 public class JwtService implements UserDetailsService {
 
     @Autowired
-    private UserDao userDao;
+    private JwtUtil jwtUtil;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private UserDao userDao;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public JwtResponse createJwtToken(JwtRequest jwtRequest) throws Exception{
+    public JwtResponse createJwtToken(JwtRequest jwtRequest) throws Exception {
         String userName = jwtRequest.getUserName();
-        String uerPassword = jwtRequest.getUserPassword();
-        authenticate(userName, uerPassword);
-        final UserDetails userDetails = loadUserByUsername(userName);
+        String userPassword = jwtRequest.getUserPassword();
+        authenticate(userName, userPassword);
+
+        UserDetails userDetails = loadUserByUsername(userName);
         String newGeneratedToken = jwtUtil.generateToken(userDetails);
+
         User user = userDao.findById(userName).get();
         return new JwtResponse(user, newGeneratedToken);
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findById(username).get();
-        if(user != null){
+
+        if (user != null) {
             return new org.springframework.security.core.userdetails.User(
                     user.getUserName(),
                     user.getUserPassword(),
-                    getAuthorities(user)
+                    getAuthority(user)
             );
-        }
-        else{
-        throw new UsernameNotFoundException("Username is not valid");
+        } else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
         }
     }
 
-
-    private Set getAuthorities(User user){
-        Set authorities = new HashSet();
-        user.getRole().forEach(role->{
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
+    private Set getAuthority(User user) {
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        user.getRole().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
         });
-
         return authorities;
     }
 
-    private void authenticate(String userName, String userPassword) throws Exception{
-        try{
-
+    private void authenticate(String userName, String userPassword) throws Exception {
+        try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));
-        }
-        catch (DisabledException e){
-            throw new Exception("User is disabled");
-        }
-        catch (BadCredentialsException e){
-            throw new Exception("Bad credentials from user");
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
 }

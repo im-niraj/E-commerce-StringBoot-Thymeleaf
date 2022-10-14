@@ -1,12 +1,9 @@
-package in.nirajkumar.ecommerce.Entity;
+package com.youtube.jwt.entity;
 
 public class JwtResponse {
+
     private User user;
     private String jwtToken;
-
-    public JwtResponse(){
-
-    }
 
     public JwtResponse(User user, String jwtToken) {
         this.user = user;

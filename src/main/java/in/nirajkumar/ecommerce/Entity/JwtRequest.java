@@ -1,6 +1,7 @@
-package in.nirajkumar.ecommerce.Entity;
+package com.youtube.jwt.entity;
 
 public class JwtRequest {
+
     private String userName;
     private String userPassword;
 
