@@ -4,10 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class UserController {
+public class AdminController {
 
-    @GetMapping("/forUser")
-    public String forUser(){
-        return "forUser";
+
+    @GetMapping("/forAdmin")
+    public String forAdmin(){
+        return "forAdmin";
     }
 }
