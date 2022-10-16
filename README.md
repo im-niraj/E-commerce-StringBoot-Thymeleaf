@@ -1,1 +1,1 @@
-# E-commerce-StringBoot-Thymeleaf
+# StringBoot-Thymeleaf
